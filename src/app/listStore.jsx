@@ -18,6 +18,11 @@ const listStore = (set) => ({
             lists: state.lists.map((item) => item.id === listId ? {...item, checked: !item.checked} : item)
         }))
     },
+    updateListItem: (listId,updatedContent) => {
+        set((state) => ({
+            lists: state.lists.map((item) => item.id === listId ? {...item, content: updatedContent} : item)
+        }))
+    },
     clearAllLists: () => {
         set({lists: []})
     }
