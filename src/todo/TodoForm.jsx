@@ -1,22 +1,27 @@
 import React, {useState} from 'react';
 import {Box, Button, Stack, TextField} from "@mui/material";
+import useCreateStore from "../app/listStore";
 
-const TodoForm = ({onAddList}) => {
-    const [inputValue, setInputValue] = useState({})
+const TodoForm = () => {
+    const addListItem = useCreateStore((state)=>state.addListItem)
+    const [inputValue, setInputValue] = useState('');
 
-    const handleInputChange = (value) => {
-        setInputValue({id: value, content: value, checked: false})
-    }
+
     const handleSubmit = (event) => {
         event.preventDefault()
-        onAddList(inputValue)
-        setInputValue({id:'',content:'',checked:false})
+        if (!inputValue) return;
+        addListItem({
+            id: Math.ceil(Math.random() * 1000000),
+            content: inputValue,
+            checked:false
+        })
+        setInputValue('')
     }
 
     return (
         <Box component={'form'} onSubmit={handleSubmit}>
             <Stack direction={"row"}>
-                <TextField value={inputValue.content} onChange={(event) => handleInputChange(event.target.value)}/>
+                <TextField value={inputValue} onChange={(event) => setInputValue(event.target.value)}/>
                 <Button variant={'contained'} type={"submit"}>Add</Button>
             </Stack>
         </Box>
